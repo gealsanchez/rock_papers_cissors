@@ -1,39 +1,49 @@
 
-const pchoose = ['rock', 'paper', 'scissors']
+const pchoose = ['rock', 'paper', 'scissors'];
 
-const button = document.querySelector('button');
+const butrock = document.createElement('button');
+butrock.textContent = 'ROCK';
+butrock.className = "rock";
+
+const butpaper = document.createElement('button');
+butpaper.textContent = 'PAPER';
+butpaper.className = "paper";
+
+const butscissor = document.createElement('button');
+butscissor.textContent = 'SCISSORS';
+butscissor.className = 'scissors';
+
+const result = document.createElement('div');
+result.textContent = 'Result: ';
+result.className = 'texto';
+
+const title = document.createElement('div');
+title.textContent = 'Click your choice';
+title.className = 'texto';
+
+container.appendChild(title);
+container.appendChild(butrock);
+container.appendChild(butpaper);
+container.appendChild(butscissor);
+container.appendChild(result);
+
+const buttons = document.querySelectorAll('button');
 
 let usrwin = 0, pcwin = 0;
 
+function logText(e) {
+    playRound(this.classList.value, computerPlay(pchoose));
+    // e.stopPropagation(); // stop bubbling!
+    // console.log(this);
+}
 
+buttons.forEach(button => button.addEventListener('click', logText, {
+    capture: false,
+    once: false
+}));
 
 function computerPlay(arraypc) {
     return `${arraypc[Math.floor(Math.random() * (3))]}`;
-}
-
-function userPlay() {
-    userChoice = prompt('Please type your choice')
-    return userChoice.toLowerCase();
-}
-
-button.addEventListener('click', game);
-
-function game() {
-
-    pcwin = 0;
-    usrwin = 0;
-
-    for (let i = 0; i < 5; i++) {
-        // your code here!
-        playRound(userPlay(), computerPlay(pchoose));
-
-    }
-
-    if (usrwin > pcwin) {
-        alert(`User : ${usrwin} - PC : ${pcwin} USER WINS!!!`)
-    } else if (pcwin > usrwin) {
-        alert(`User : ${usrwin} - PC : ${pcwin} PC WINS!!!`)
-    } else alert(`User : ${usrwin} - PC : ${pcwin} That's a tie, Try again!!!`)
 }
 
 function playRound(usrChoic, pcChoos) {
@@ -71,16 +81,20 @@ function playRound(usrChoic, pcChoos) {
 
         default: alert(`there is no ${usrChoic} option`);
     }
+
+    result.textContent = `User : ${usrwin} - PC : ${pcwin}`
+
+    if (usrwin == 5) {
+        result.textContent = `User : ${usrwin} - PC : ${pcwin}`
+        alert(`User : ${usrwin} - PC : ${pcwin} Congratulations USER WINS!!! LETS PLAY ANOTHER ROUND!!!`);
+        pcwin = 0;
+        usrwin = 0;
+        result.textContent = `User : ${usrwin} - PC : ${pcwin}`
+    } else if (pcwin == 5) {
+        result.textContent = `User : ${usrwin} - PC : ${pcwin}`
+        alert(`User : ${usrwin} - PC : ${pcwin} PC WINS!!!  LETS PLAY ANOTHER ROUND!!!`);
+        pcwin = 0;
+        usrwin = 0;
+        result.textContent = `User : ${usrwin} - PC : ${pcwin}`
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
